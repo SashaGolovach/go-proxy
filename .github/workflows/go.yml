@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Build
+      run: go build
+      
+    - name: Upload package to release
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: go-proxy.exe
+        asset_name: go-proxy.exe
+        tag: ${{ github.ref }}
+        overwrite: true
