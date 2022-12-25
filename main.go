@@ -25,7 +25,7 @@ func (p *Proxy) ServeHTTP(wr http.ResponseWriter, r *http.Request) {
 	tr := &http.Transport{TLSClientConfig: config}
 	client := &http.Client{Transport: tr}
 
-	req, err = http.NewRequest(r.Method, p.apiBaseUrl+req.RequestURI, r.Body)
+	req, err = http.NewRequest(r.Method, p.apiBaseUrl+r.RequestURI, r.Body)
 	for name, value := range r.Header {
 		req.Header.Set(name, value[0])
 	}
