@@ -19,7 +19,11 @@ func (p *Proxy) ServeHTTP(wr http.ResponseWriter, r *http.Request) {
 	var resp *http.Response
 	var err error
 	var req *http.Request
-	client := &http.Client{}
+	config := &tls.Config{
+		InsecureSkipVerify: true,
+	}
+	tr := &http.Transport{TLSClientConfig: config}
+	client := &http.Client{Transport: tr}
 
 	req, err = http.NewRequest(r.Method, p.apiBaseUrl, r.Body)
 	for name, value := range r.Header {
