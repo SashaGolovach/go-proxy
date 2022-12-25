@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/tls"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -41,7 +43,10 @@ func (p *Proxy) ServeHTTP(wr http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	proxy := NewProxy("https://test.url.domain/")
+	proxyUrl := flag.String("proxy", "https://github.com/", "proxy url")
+	flag.Parse()
+
+	proxy := NewProxy(*proxyUrl)
 	fmt.Println("==============================")
 	fmt.Println("Proxy Server started")
 	err := http.ListenAndServe(":12345", proxy)
