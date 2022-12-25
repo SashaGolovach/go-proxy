@@ -44,12 +44,13 @@ func (p *Proxy) ServeHTTP(wr http.ResponseWriter, r *http.Request) {
 
 func main() {
 	proxyUrl := flag.String("proxy", "https://github.com/", "proxy url")
+	localPort := flag.String("local", "12345", "local port")
 	flag.Parse()
 
 	proxy := NewProxy(*proxyUrl)
 	fmt.Println("==============================")
 	fmt.Println("Proxy Server started")
-	err := http.ListenAndServe(":12345", proxy)
+	err := http.ListenAndServe(":"+*localPort, proxy)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err.Error())
 	}
